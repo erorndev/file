@@ -26,7 +26,7 @@ set(BUILD_SHARED_LIBS      OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(pcre2)
 
 file(GLOB MAGIC_FRAGMENT_FILES CONFIGURE_DEPENDS
-        ${CMAKE_CURRENT_SOURCE_DIR}/magic/Magdir/*
+        ${CMAKE_CURRENT_SOURCE_DIR}/upstream/magic/Magdir/*
 )
 
 set(MAGIC_STAGE_DIR ${CMAKE_CURRENT_BINARY_DIR}/magic)
@@ -102,19 +102,19 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E rm -rf ${MAGIC_STAGE_DIR}
         COMMAND ${CMAKE_COMMAND} -E make_directory ${MAGIC_STAGE_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/magic/Header
+        ${CMAKE_CURRENT_SOURCE_DIR}/upstream/magic/Header
         ${MAGIC_STAGE_DIR}/Header
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/magic/Localstuff
+        ${CMAKE_CURRENT_SOURCE_DIR}/upstream/magic/Localstuff
         ${MAGIC_STAGE_DIR}/Localstuff
         COMMAND powershell -ExecutionPolicy Bypass -Command
-        "Copy-Item -Path '${CMAKE_CURRENT_SOURCE_DIR}/magic/Magdir/*' -Destination '${MAGIC_STAGE_DIR}' -Force"
+        "Copy-Item -Path '${CMAKE_CURRENT_SOURCE_DIR}/upstream/magic/Magdir/*' -Destination '${MAGIC_STAGE_DIR}' -Force"
         COMMAND $<TARGET_FILE:file> -C -m magic
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS
         file
-        ${CMAKE_CURRENT_SOURCE_DIR}/magic/Header
-        ${CMAKE_CURRENT_SOURCE_DIR}/magic/Localstuff
+        ${CMAKE_CURRENT_SOURCE_DIR}/upstream/magic/Header
+        ${CMAKE_CURRENT_SOURCE_DIR}/upstream/magic/Localstuff
         ${MAGIC_FRAGMENT_FILES}
         VERBATIM
 )
